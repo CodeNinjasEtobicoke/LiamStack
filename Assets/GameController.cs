@@ -22,13 +22,36 @@ public class GameController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Newblock();
         
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        if (Done)
+        {
+            return;
+
+        }
+
+        var time = Mathf.Abs(Time.realtimeSinceStartup % 2f - 1f);
+        var pos1 = lastCube.transform.position + Vector3.up * 10f;
+        var pos2 = pos1 + ((Level % 2 == 0) ? Vector3.left : Vector3.forward) * 120;
+        if (Level % 2 == 0)
+        {
+            currentCube.transform.position = Vector3.Lerp(pos2, pos1, time);
+        }
+        else
+        {
+            currentCube.transform.position = Vector3.Lerp(pos1, pos2, time);
+        }
+
+        if (Input.GetMouseButtonDown(0))
+        {
+
+            Newblock();
+        }
     }
 
     void Newblock()
@@ -69,6 +92,14 @@ public class GameController : MonoBehaviour
         Camera.main.transform.LookAt(currentCube.transform.position);
 
 
+
+    }
+
+
+    IEnumerator X()
+    {
+        yield return new WaitForSeconds(3f);
+        SceneManager.LoadScene("SampleScene");
 
     }
 }
